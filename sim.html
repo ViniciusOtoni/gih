@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Sempre 🌹</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* RESET */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* BASE */
+    body {
+      min-height: 100vh;
+      font-family: 'Playfair Display', serif;
+      background: radial-gradient(circle at top, #fff0f6, #fde2eb);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      color: #6b2d45;
+    }
+
+    /* TÍTULO */
+    .title {
+      font-size: clamp(1.9rem, 5vw, 2.7rem);
+      margin-bottom: 45px;
+      text-align: center;
+      color: #c0254d;
+    }
+
+    /* CENA */
+    .box-scene { display: flex; justify-content: center; }
+
+    /* CAIXA */
+    .ring-box {
+      position: relative;
+      width: min(340px, 85vw);
+      height: min(340px, 85vw);
+      perspective: 1200px;
+    }
+
+    /* BASE */
+    .base {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #f6b4ce, #e89ab8);
+      border-radius: 30px;
+      box-shadow:
+        inset 0 10px 14px rgba(255,255,255,0.45),
+        0 22px 38px rgba(0,0,0,0.25);
+      z-index: 1;
+    }
+
+    /* TAMPA */
+    .lid {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 50%;
+      background: linear-gradient(145deg, #f9c7dc, #e48bb3);
+      border-radius: 30px 30px 14px 14px;
+      transform-origin: top;
+      animation: openLid 2.3s ease forwards;
+      z-index: 4;
+    }
+
+    /* TEXTO FINAL */
+    .final-text {
+      margin-top: 55px;
+      font-size: clamp(1.6rem, 4.8vw, 2.1rem);
+      max-width: 650px;
+      text-align: center;
+      line-height: 1.9;
+      color: #7a1f3a;
+      padding: 0 24px;
+    }
+
+    /* SVG */
+    .rose-svg {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 92%;
+      height: 92%;
+      z-index: 2;
+      opacity: 0;
+      transform: scale(0.6);
+      animation: roseIn 1.6s ease forwards;
+      animation-delay: 2.4s;
+      pointer-events: none;
+    }
+
+    /* PÉTALAS */
+    .petal {
+      fill: #d91e42;
+      stroke: rgba(0,0,0,0.06);
+      stroke-width: 0.8;
+      opacity: 0;
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.18));
+      transform-origin: center;
+      animation: petalGrow 0.9s cubic-bezier(.2,.9,.2,1) forwards;
+    }
+
+    /* Delays: externas depois das internas (mais natural) */
+    /* inner (drawn last so they appear on top) */
+    .ip1 { animation-delay: 3.1s; }
+    .ip2 { animation-delay: 3.2s; }
+    .ip3 { animation-delay: 3.3s; }
+    .ip4 { animation-delay: 3.4s; }
+
+    /* outer ring */
+    .op1  { animation-delay: 2.6s; }
+    .op2  { animation-delay: 2.65s; }
+    .op3  { animation-delay: 2.7s; }
+    .op4  { animation-delay: 2.75s; }
+    .op5  { animation-delay: 2.8s; }
+    .op6  { animation-delay: 2.85s; }
+    .op7  { animation-delay: 2.9s; }
+    .op8  { animation-delay: 2.95s; }
+    .op9  { animation-delay: 3.0s; }
+    .op10 { animation-delay: 3.05s; }
+    .op11 { animation-delay: 3.08s; }
+    .op12 { animation-delay: 3.12s; }
+
+    .rose-core {
+      fill: #a80f2d;
+      opacity: 0;
+      animation: coreGrow 0.8s ease forwards;
+      animation-delay: 3.7s;
+      filter: drop-shadow(0 6px 8px rgba(0,0,0,0.18));
+    }
+
+    @keyframes petalGrow {
+      from {
+        opacity: 0;
+        transform: scale(0.4) translateY(6px) rotate(-6deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0) rotate(0deg);
+      }
+    }
+
+    @keyframes coreGrow {
+      from { opacity: 0; transform: scale(0.4); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes roseIn {
+      to { opacity: 1; transform: scale(1.08); }
+    }
+
+    @keyframes openLid { to { transform: rotateX(120deg); } }
+
+  </style>
+</head>
+<body>
+
+<h1 class="title">Então... É oficial e para sempre ❤️ </h1>
+
+<div class="box-scene">
+  <div class="ring-box">
+    <div class="lid"></div>
+    <div class="base"></div>
+
+    <!-- SVG: petala desenhada ao redor de (0,0). Depois cada <g>:
+         1) translate(100,100) move para o centro do box
+         2) rotate(angle) gira
+         3) translate(0,-R) empurra radialmente para fora -->
+    <svg class="rose-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+
+      <defs>
+        <!-- PETAL centered at (0,0). Points go outward mostly in +Y direction -->
+        <path id="petalOrigin" d="
+          M0 0
+          C22 -12 48 -8 58 6
+          C50 34 26 30 8 20 Z" />
+      </defs>
+
+      <g class="rose-spiral">
+
+        <!-- OUTER RING: 12 petals, radius ~46 -->
+        <!-- note: each petal is a <g> that first translates to center -->
+        <g transform="translate(100 100) rotate(0)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op1"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(30)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op2"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(60)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op3"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(90)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op4"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(120)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op5"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(150)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op6"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(180)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op7"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(210)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op8"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(240)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op9"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(270)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op10"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(300)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op11"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(330)">
+          <g transform="rotate(0) translate(0 -46)">
+            <use href="#petalOrigin" class="petal op12"/>
+          </g>
+        </g>
+
+        <!-- INNER RING: 4 petals, smaller radius and slightly rotated offsets -->
+        <g transform="translate(100 100) rotate(15)">
+          <g transform="rotate(0) translate(0 -26)">
+            <use href="#petalOrigin" class="petal ip1" style="transform-origin: 100px 100px; transform: scale(0.72);"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(105)">
+          <g transform="rotate(0) translate(0 -26)">
+            <use href="#petalOrigin" class="petal ip2" style="transform-origin: 100px 100px; transform: scale(0.72);"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(195)">
+          <g transform="rotate(0) translate(0 -26)">
+            <use href="#petalOrigin" class="petal ip3" style="transform-origin: 100px 100px; transform: scale(0.72);"/>
+          </g>
+        </g>
+
+        <g transform="translate(100 100) rotate(285)">
+          <g transform="rotate(0) translate(0 -26)">
+            <use href="#petalOrigin" class="petal ip4" style="transform-origin: 100px 100px; transform: scale(0.72);"/>
+          </g>
+        </g>
+
+      </g>
+
+      <!-- MIOLO: central, desenhado por cima -->
+      <g transform="translate(100 100) scale(1.1)">
+  <path class="rose-core"
+    d="
+       M0 -10
+      C10 -18 22 -10 22 0
+      C22 14 10 22 0 22
+      C-14 22 -22 10 -22 0
+      C-22 -10 -10 -18 0 -10
+      Z
+    " />
+</g>
+    </svg>
+
+  </div>
+</div>
+
+<p class="final-text">
+  Assim como essa rosa se abre por completo…  
+  meu amor por você cresce, floresce  
+  e escolhe você todos os dias... Agora, feche os olhos!
+</p>
+
+<script src="sim.js"></script>
+</body>
+</html>
