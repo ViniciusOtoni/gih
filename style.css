@@ -188,3 +188,13 @@ body {
   border: none;
   cursor: pointer;
 }
+
+@media (max-width: 420px) {
+  .pedido h1 {
+    font-size: 2rem;
+  }
+
+  .pedido h1 span {
+    display: block;
+  }
+}
