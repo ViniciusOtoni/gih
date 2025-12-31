@@ -1,12 +1,24 @@
 // Música
 const music = document.getElementById('music');
 const btnMusic = document.getElementById('music-btn');
+
 let playing = false;
 
-btnMusic.onclick = () => {
-  playing ? music.pause() : music.play();
-  playing = !playing;
-};
+btnMusic.addEventListener('click', async () => {
+  try {
+    if (!playing) {
+      await music.play(); // importante no mobile
+      btnMusic.textContent = '⏸️';
+    } else {
+      music.pause();
+      btnMusic.textContent = '🎵';
+    }
+    playing = !playing;
+  } catch (err) {
+    console.error('Erro ao tentar tocar a música:', err);
+  }
+});
+
 
 // Fade + typewriter
 const sections = document.querySelectorAll('.fade');
